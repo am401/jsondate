@@ -6,6 +6,8 @@ Written in Flask and hosted with [fly.io](https://fly.io) it's a lightweight and
 ## TODO
 Some things I'd like to accomplish:
 
-- [ ] Expand on data returned
+- [x] Expand on data returned
+- [ ] Fix the order of the data returned
+- [ ] Fix accepting timezone via argument
 - [ ] Create documentation for the tool
 - [ ] Consider rate limiting
