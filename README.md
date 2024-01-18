@@ -7,7 +7,7 @@ Written in Flask and hosted with [fly.io](https://fly.io) it's a lightweight and
 Some things I'd like to accomplish:
 
 - [x] Expand on data returned
-- [ ] Fix the order of the data returned
-- [ ] Fix accepting timezone via argument
+- [x] Fix the order of the data returned
+- [x] Fix accepting timezone via argument
 - [ ] Create documentation for the tool
 - [ ] Consider rate limiting
