@@ -33,10 +33,10 @@ def bad_request(error):
 def home():
     requestArg = request.args.get('timezone')
     if requestArg is None:
-        now = datetime.datetime.now(pytz.utc))
+        now = datetime.datetime.now(pytz.utc)
     else:
         try:
-            now = datetime.datetime.now(pytz.timezone(requestArg)
+            now = datetime.datetime.now(pytz.timezone(requestArg))
         except pytz.exceptions.UnknownTimeZoneError:
             abort(400)
     dateObject = DateObject(
@@ -51,7 +51,7 @@ def home():
     )
     return jsonify(
         dateTime=dateObject.dateTime,
-        epoch=int(dateObject.epoch),
+        epoch=int(float(dateObject.epoch)),
         date=dateObject.fulldate,
         year=dateObject.year,
         month=dateObject.month,
