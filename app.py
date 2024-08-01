@@ -8,9 +8,13 @@ app = Flask(__name__)
 # Retain the order for the keys that is configured in the application
 app.json.sort_keys = False
 
-def returnDateObject():
-    date = datetime.datetime
-    return date
+class DateObject:
+    def __init__(self, todaysDate, **kwargs):
+        self.dateTime = todaysDate.isoformat()
+        self.epoch = todaysDate.timestamp()
+        self.__dict__.update(kwargs)
+        for k, v in self.__dict__.items():
+            setattr(self, k, todaysDate.strftime(str(v)))
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -27,25 +31,34 @@ def bad_request(error):
 
 @app.route("/", methods=['GET'])
 def home():
-    dateObject = returnDateObject()
     requestArg = request.args.get('timezone')
     if requestArg is None:
-        dateObject = dateObject.now(pytz.utc)
+        now = datetime.datetime.now(pytz.utc)
     else:
         try:
-            dateObject = dateObject.now(pytz.timezone(requestArg))
+            now = datetime.datetime.now(pytz.timezone(requestArg))
         except pytz.exceptions.UnknownTimeZoneError:
             abort(400)
+    dateObject = DateObject(
+            now,
+            fulldate='%Y-%m-%d', 
+            year='%Y',
+            month='%b',
+            day='%a',
+            hour='%H',
+            minute='%M',
+            second='%S'
+    )
     return jsonify(
-        dateTime=dateObject.isoformat(),
-        epoch=int(dateObject.timestamp()),
-        date=dateObject.strftime('%Y-%m-%d'),
-        year=dateObject.strftime('%Y'),
-        month=dateObject.strftime('%b'),
-        day=dateObject.strftime('%a'),
-        hour=dateObject.strftime('%H'),
-        minute=dateObject.strftime('%M'),
-        second=dateObject.strftime('%S')
+        dateTime=dateObject.dateTime,
+        epoch=int(float(dateObject.epoch)),
+        date=dateObject.fulldate,
+        year=dateObject.year,
+        month=dateObject.month,
+        day=dateObject.day,
+        hour=dateObject.hour,
+        minute=dateObject.minute,
+        second=dateObject.second
         )
     
         
