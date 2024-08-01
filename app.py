@@ -8,6 +8,12 @@ app = Flask(__name__)
 # Retain the order for the keys that is configured in the application
 app.json.sort_keys = False
 
+class DateObject:
+    def __init__(self, dateNow, strftime):
+        self.dateTime = dateNow.isoformat()
+        self.epoch = dateNow.timestamp()
+        self.strftime = dateNow.strftime(strftime)
+
 def returnDateObject():
     date = datetime.datetime
     return date
